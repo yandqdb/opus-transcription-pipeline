@@ -1,0 +1,20 @@
+resources:
+  pipelines:
+    opus_transcription_etl:
+      name: opus_transcription_etl
+      catalog: ${var.catalog}
+      target: ${var.schema}
+      libraries:
+        - file:
+            path: ../src/transformations/01_bronze_ingest.py
+        - file:
+            path: ../src/transformations/02_silver_transcripts.py
+        - file:
+            path: ../src/transformations/03_gold_transcripts.py
+      configuration:
+        source_volume_path: ${var.source_volume_path}
+        schema_location_base: ${var.schema_location_base}
+        whisper_endpoint_url: ${var.whisper_endpoint_url}
+      serverless: true
+      development: true
+      continuous: false

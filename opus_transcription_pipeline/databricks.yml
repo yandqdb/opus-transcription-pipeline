@@ -1,0 +1,35 @@
+bundle:
+  name: opus_transcription_pipeline
+
+variables:
+  catalog:
+    description: Unity Catalog catalog name
+    default: users
+  schema:
+    description: Target schema for pipeline tables
+    default: dong_qiaoyang
+  source_volume_path:
+    description: Volume path containing opus audio files
+    default: /Volumes/users/dong_qiaoyang/man_volume/voice/
+  schema_location_base:
+    description: Base path for Auto Loader schema metadata
+    default: /Volumes/users/dong_qiaoyang/man_volume/pipeline_metadata/schemas
+  whisper_endpoint_url:
+    description: Full URL for the Whisper model serving endpoint
+    default: https://e2-demo-field-eng.cloud.databricks.com/serving-endpoints/whisper-large-v3-gpu/invocations
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    variables:
+      catalog: users
+      schema: dong_qiaoyang
+
+  prod:
+    variables:
+      catalog: users
+      schema: dong_qiaoyang
